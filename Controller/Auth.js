@@ -1,8 +1,7 @@
 const { validationResult } = require("express-validator");
 const AppErr = require("../helper/AppError");
 const Authmodel = require("../Modal/Auth");
-const GenerateToken = require("../helper/generateToken");
-
+const generateToken = require("../helper/GenerateToken");
 
 
 const Signup = async (req, res, next) => {
@@ -55,7 +54,7 @@ const Login = async (req, res, next) => {
     }
 
     // Generate Token
-    let token = await GenerateToken(usercheck._id)
+    let token = await generateToken(usercheck._id)
 
     return res.status(200).json({
       status: true,
