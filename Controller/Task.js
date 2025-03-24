@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 const AppErr = require("../helper/AppError");
 const Taskmodel = require("../Modal/Task");
 
@@ -60,13 +61,13 @@ const UpdateTask = async (req, res, next) => {
 
 const GetAllTask = async (req, res, next) => {
   try {
-    let res = await Taskmodel.find();
+    let task = await Taskmodel.find();
 
     return res.status(200).json({
       status: true,
       code: 200,
       message: "Task Fetched Successfully",
-      data: res,
+      data: task,
     });
   } catch (error) {
     return next(new AppErr(error.message, 500));
@@ -80,13 +81,13 @@ const GetTaskById = async (req, res, next) => {
       return next(new AppErr("Task Id is required", 400));
     }
 
-    let res = await Taskmodel.findById(id);
+    let task = await Taskmodel.findById(id);
 
     return res.status(200).json({
       status: true,
       code: 200,
       message: "Task Fetched Successfully",
-      data: res,
+      data: task,
     });
   } catch (error) {
     return next(new AppErr(error.message, 500));
@@ -95,13 +96,12 @@ const GetTaskById = async (req, res, next) => {
 
 const GetMyTask = async (req, res, next) => {
   try {
-    let res = await Taskmodel.findById(req.user);
-
+    let task = await Taskmodel.find({ User: req.user });
     return res.status(200).json({
       status: true,
       code: 200,
       message: "Task Fetched Successfully",
-      data: res,
+      data: task,
     });
   } catch (error) {
     return next(new AppErr(error.message, 500));
@@ -115,7 +115,7 @@ const DeleteTask = async (req, res, next) => {
       return next(new AppErr("Task Id is required", 400));
     }
 
-    let res = await Taskmodel.findByIdAndDelete(id);
+    await Taskmodel.findByIdAndDelete(id);
 
     return res.status(200).json({
       status: true,
@@ -127,12 +127,11 @@ const DeleteTask = async (req, res, next) => {
   }
 };
 
-
-module.exports={
-    CreateTask,
-    UpdateTask,
-    GetAllTask,
-    GetTaskById,
-    GetMyTask,
-    DeleteTask
-}
+module.exports = {
+  CreateTask,
+  UpdateTask,
+  GetAllTask,
+  GetTaskById,
+  GetMyTask,
+  DeleteTask,
+};

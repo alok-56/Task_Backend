@@ -1,16 +1,15 @@
 const AppErr = require("../helper/AppError");
 const verifyToken = require("../helper/VerifyToken");
+const Authmodel = require("../Modal/Auth");
 
-const Authmodel = require("../Route/Auth");
 
 const IsLogin = async (req, res, next) => {
   try {
-    let { token } = req.headers;
+    let {token} = req.headers
 
     if (!token) {
       return next(new AppErr("Unauthorized User", 401));
     }
-
     let { id } = await verifyToken(token);
     req.user = id;
     let user = await Authmodel.findById(id);
