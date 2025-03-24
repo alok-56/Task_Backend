@@ -5,12 +5,11 @@ const Authmodel = require("../Route/Auth");
 
 const IsLogin = async (req, res, next) => {
   try {
-    let token = req.headers.Authorization;
+    let { token } = req.headers;
 
-    if (!token || !token.startsWith("Bearer")) {
+    if (!token) {
       return next(new AppErr("Unauthorized User", 401));
     }
-    token = token.split(" ")[1];
 
     let { id } = await verifyToken(token);
     req.user = id;
