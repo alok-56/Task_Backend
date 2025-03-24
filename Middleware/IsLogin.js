@@ -1,5 +1,6 @@
 const AppErr = require("../helper/AppError");
-const verifyToken = require("../helper/verifyToken");
+const verifyToken = require("../helper/VerifyToken");
+
 const Authmodel = require("../Route/Auth");
 
 const IsLogin = async (req, res, next) => {
