@@ -7,7 +7,7 @@ const IsLogin = async (req, res, next) => {
   try {
     let token = req.headers.Authorization;
 
-    if (!token || !token.startsWith("Bearer ")) {
+    if (!token || !token.startsWith("Bearer")) {
       return next(new AppErr("Unauthorized User", 401));
     }
     token = token.split(" ")[1];
